@@ -1,0 +1,102 @@
+from random import *
+
+# алгоритм
+def guessing_game(x, y):
+    too_much = ['Ох, слишком много! Попробуй еще раз', 'Многовато будет!', 'Ого-го, это слишком много!',
+                        'Много!', 'Бери ниже', 'Многовато!']
+    too_little = [' Попробуй еще раз', 'Маловато будет!',
+                        'Мало!', 'Бери выше', 'Маловато!', 'Нужно большее число!']
+    almost = ['Почти угадал!', 'Горячо, но пока нет то', 'Уже рядом', 'Ты уже рядом',
+                      'Горячо!']
+    guessed = ['Поздравляю! Ты угадал моё число :)', 'Молодец! Ты угадал :)', 'Ура, ты угадал! :)']
+    too_soon = ['Ого, так быстро!', 'Волшебно! Ты угадал моё число', 'Скажи честно, ты волшебник?',
+                        'Вот это интуиция!']
+    if x > y:
+        x, y = y, x
+        num_0 = randint(x, y)
+        print('Я загадала число от', x, 'до', y, 'Попробуй угадать!')
+    else:
+        num_0 = randint(x, y)
+        print('Я загадала число от', x, 'до', y, 'Попробуй угадать!')
+    count = 0
+    while True:
+        num_1 = int(input())
+        count += 1
+        if num_1 == num_0:
+            if count == 1:
+                print('Скажи честно, ты подглядывал?')
+                if input('Хочешь сыграть еще раз? Введи "да" или "нет" ').lower() in ['да', 'lf']:
+                    start()
+                else:
+                    print('Приходи, когда появится желание сыграть снова :)')
+                    break
+            elif 1 <= count <= 5:
+                print(choice(too_soon))
+                if input('Хочешь сыграть еще раз? Введи "да" или "нет" ').lower() in ['да', 'lf']:
+                    start()
+                else:
+                    print('Приходи, когда появится желание сыграть снова :)')
+                    break
+            else:
+                print(choice(guessed))
+                if input('Хочешь сыграть еще раз? Введи "да" или "нет" ').lower() in ['да', 'lf']:
+                    start()
+                else:
+                    print('Приходи, когда появится желание сыграть снова :)')
+                    break
+        elif num_1 > num_0:
+            if abs(num_1 - num_0) < 5:
+                print(choice(too_much), choice(almost), sep='\n')
+            else:
+                print(choice(too_much))
+        elif num_1 < num_0:
+            if abs(num_1 - num_0) < 5:
+                print(choice(too_little), choice(almost),  sep='\n')
+            else:
+                print(choice(too_little))
+
+# описание правил
+def game_rules():
+    print('Давай познакомимся с правилами  игры.')
+    print('Я загадаю число, а ты будешь его отгадывать.')
+    print('Диапазон чисел ты выберешь сам.')
+    input('Напиши что-нибудь, если условия понятны :)')
+
+# проверка правильности ввода
+def is_valid_x(x):
+    if x.isdigit() is False:
+        print('Это не число :(')
+        print('Что ж, ладно, введи снова.')
+        start()
+
+def is_valid_xy(x, y):
+    while x == y:
+        print('Ты ввел одинаковые числа. Так играть мы не сможем :(')
+        print('Что ж, ладно, введи новое число.')
+        start()
+    if y.isdigit() is False:
+        print(':( Это же не число')
+        print('Давай еще разок :)')
+        start()
+    else:
+        return True
+
+# пуск игры
+def start():
+    x = input('Введи первую границу диапазона: ')
+    is_valid_x(x)
+    y = input('Введи вторую границу диапазона: ')
+    if is_valid_xy(x, y) is True:
+        x, y = int(x), int(y)
+        guessing_game(x, y)
+
+# приглашение в игру
+if input('Привет, я Угадайка :)! Давай поиграем ? Введи "да" или "нет" ').lower() in ['да', 'lf']:
+    game_rules()
+    start()
+else:
+    if input('Хорошо подумал? может все таки  "да"?:)').lower() in ['да', 'lf']:
+        game_rules()
+        start()
+    else:
+        print('Приходи, если захочешь, я буду рада :)')
